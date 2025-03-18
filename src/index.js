@@ -22,7 +22,7 @@ import connectDB from "./config/db.js";
 import taskRoutes from "./routes/taskRoutes.js";
 
 // Router module containing routes related to authentication
-import authRoutes from "./routes/authRoutes.js";
+import authRoutes from "./routes/authRoutes.js"; // `authRoutes` is just an alias for the `router` instance we exported
 
 dotenv.config(); // Loads environment variables from a `.env` file into `process.env`
 connectDB(); // Calls the function to establish a connection to the database
