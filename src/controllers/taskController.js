@@ -3,7 +3,7 @@
  * using Express.js and Mongoose for MongoDB interactions.
  */
 
-import Task from "../models/Task";
+import Task from "../models/Task.js";
 
 // An asynchronous function that handles the creation of a new task.
 export const createTask = async (req, res) => {
