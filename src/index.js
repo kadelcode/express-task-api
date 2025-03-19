@@ -31,7 +31,7 @@ const app = express(); // Creates an instance of the Express application
 
 /**
  * Enables parsing of JSON request bodies.
- * This middleware allows the server to understande and process
+ * This middleware allows the server to understand and process
  * JSON data sent in the request.
  */
 app.use(express.json());
