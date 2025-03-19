@@ -73,3 +73,39 @@ export const updateTask = async (req, res) => {
         res.status(500).json({ message: "Server error", error: error.message });
     }
 };
+
+// Delete a task
+// Define an asynchronous function to delete a task.
+export const deleteTask = async (req, res) => {
+    try {
+        // Extract the task ID from the request parameters.
+        // This ID is used to identify which task to delete.
+        const { id } = req.params;
+
+        // Find the task in the database by its ID.
+        const task = await Task.findById(id);
+
+        // If the task is not found, return a 404 status code with an error message.
+        if (!task) {
+            return res.status(404).json({ message: "Task not found" });
+        }
+
+        // Check if the user who is making the request owns the task.
+        /**
+         * This is done by comparing the user ID associated with the task
+         * to the user ID in the request object.
+         */
+        if (task.user.toString() !== req.user.id) {
+            return res.status(403).json({ message: "Unauthorized to delete this task" });
+        }
+
+        await task.deleteOne(); // Delete the task from the database.
+
+        // Return a success response with a 200 status code.
+        res.status(200).json({ message: "Task deleted successfully" });
+    } catch (error) {
+        // If an error occurs during the process, return a 500 status code
+        // with an error message and the error details.
+        res.status(500).json({ message: "Server error", error: error.message });
+    }
+};
