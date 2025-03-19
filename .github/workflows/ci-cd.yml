@@ -1,0 +1,34 @@
+name: CI/CD Pipeline
+
+on:
+    push:
+        branches: [main, develop]
+    pull_request:
+        branches: [main]
+
+jobs:
+    build-test:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v3
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v3
+              with:
+                node-version: 20
+                cache: 'npm'
+
+            - name: Install dependencies
+              run: npm install
+
+    deploy:
+        needs: build-test
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Deploy to Render
+              env:
+                RENDER_DEPLOY_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK }}
+              run: curl -X POST "$RENDER_DEPLOY_HOOK"
