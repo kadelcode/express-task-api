@@ -6,7 +6,7 @@
 import express from "express";
 
 // Controllers typically contain the business logic for handling requests
-import { createTask, getTasks } from "../controllers/taskController.js";
+import { createTask, getTasks, updateTask } from "../controllers/taskController.js";
 
 // Middleware functions are used to perform actions before or after a route handle
 // is executed, such as authentication or authorization.
@@ -20,5 +20,6 @@ const router = express.Router();
 
 router.post("/", authMiddleware, createTask); // Create a task (protected)
 router.get("/", authMiddleware, getTasks); // Get all tasks (protected)
+router.put("/update", authMiddleware, updateTask); // Update a task (protected)
 
 export default router;
