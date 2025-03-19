@@ -20,6 +20,6 @@ const router = express.Router();
 
 router.post("/", authMiddleware, createTask); // Create a task (protected)
 router.get("/", authMiddleware, getTasks); // Get all tasks (protected)
-router.put("/update", authMiddleware, updateTask); // Update a task (protected)
+router.put("/:id", authMiddleware, updateTask); // Update a task (protected)
 
 export default router;
