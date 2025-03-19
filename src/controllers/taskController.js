@@ -21,3 +21,55 @@ export const getTasks = async (req, res) => {
     const tasks = await Task.find(); // retrieves all tasks from the db.
     res.json(tasks); // The function sends a response with the list of tasks in JSON format.
 }
+
+// Update Task
+/**
+ * Define an asynchronous function to update a task.
+ * This function will be used as a controller in an Express.js route.
+ */
+export const updateTask = async (req, res) => {
+    try {
+        // Extract the task ID from the request parameters.
+        // This ID is used to identify which task to update.
+        const { id } = req.params
+
+        // Extract the task details from the request body.
+        // These details are the new values for the task's fields.
+        const { title, description, priority, dueDate } = req.body;
+
+        // find the task in the database by its ID.
+        const task = await Task.findById(id);
+
+        // If the task is not found, return a 404 status code with an error message.
+        if (!task) {
+            return res.status(404).json({ message: "Task not found" });
+        }
+
+        // Check if the user who is making the request owns the task.
+        /**
+         * This is done by comparing the user ID associated with the task to
+         * the user ID in the request object.
+         * 
+         */
+        if (task.user.toString() !== req.user.id) {
+            return res.status(403).json({ message: "Unauthorized to update this task" });
+        }
+
+        // Update the task's fields with the new values from the request body.
+        // If a field is not provided in the request body, keep the existing value.
+        task.title = title || task.title;
+        task.description = description || task.description;
+        task.priority = priority || task.priority;
+        task.dueDate = dueDate || task.dueDate;
+
+        // Save the updated task to the database.
+        await task.save();
+
+        // Return a success response with a 200 status code and the updated task.
+        res.status(200).json({ message: "Task updated successfully", task });
+    } catch (error) {
+        // If an error occurs during the process, return a 500 status code
+        // with an error message and the error details.
+        res.status(500).json({ message: "Server error", error: error.message });
+    }
+};
