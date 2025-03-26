@@ -6,6 +6,14 @@ import bcrypt from "bcrypt"; // For hashing passwords
 // This function handles user registration
 export const register = async (req, res) => {
     const { name, email, password } = req.body; // Extracts parameters from request body
+    
+    const existingUser = await User.findOne({ email });
+
+    // Checking for existing user
+    if (existingUser) {
+        return res.status(400).json({ message: "Email is already in use" });
+    }
+    
     const user = await User.create({ name, email, password }); // Creates a new user in the db.
 
     /**
