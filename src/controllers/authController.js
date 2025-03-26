@@ -49,5 +49,5 @@ export const login = async (req, res) => {
      * It sends a JSON response containing the generated JWT.
      */
     const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET);
-    res.json({ token });
+    res.json({ token, user: { id: user._id, username: user.username, email: user.email } });
 }
