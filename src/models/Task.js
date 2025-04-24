@@ -16,7 +16,7 @@ const TaskSchema = new mongoose.Schema(
         dueDate: Date, // A data field to specify when the task is due.
 
         // Task's status
-        status: { type: String, enum: ["todo", "in-progress", "done"], default: "todo" },
+        status: { type: String, enum: ["todo", "in-progress", "done", "overdue"], default: "todo" },
     },
     /**
      * An option that automatically adds `createdAt` and `updatedAt` fields to the
