@@ -7,20 +7,31 @@ import Task from "../models/Task.js";
 
 // An asynchronous function that handles the creation of a new task.
 export const createTask = async (req, res) => {
-    // `req.body` contains the data sent in the request body, which is used to create a new task.
-    const task = await Task.create(req.body);
+    try {
+        // `req.body` contains the data sent in the request body, which is used to create a new task.
+        const task = await Task.create({
+            ...req.body,
+            user: req.user.id, // associate task with the logged-in user
+        });
 
-    // If the task is successfully created, the function sends a response with a status
-    // code of 201 (Created) and the newly created task in JSON format.
-    res.status(201).json(task);
+        // If the task is successfully created, the function sends a response with a status
+        // code of 201 (Created) and the newly created task in JSON format.
+        res.status(201).json(task);
+    } catch (error) {
+        res.status(500).json({ message: "Failed to create task", error:error.message });
+    }
 };
 
 
 // An asynchronous function that retrieves all tasks from the database.
 export const getTasks = async (req, res) => {
-    const tasks = await Task.find(); // retrieves all tasks from the db.
-    res.json(tasks); // The function sends a response with the list of tasks in JSON format.
-}
+    try {
+        const tasks = await Task.find({ user: req.user.id}); // retrieves all tasks from the db.
+        res.json(tasks); // The function sends a response with the list of tasks in JSON format.
+    } catch (error) {
+        res.status(500).json({ message: "Failed to fetch tasks", error: error.message });
+    }
+};
 
 // Update Task
 /**
