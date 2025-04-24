@@ -17,6 +17,13 @@ const TaskSchema = new mongoose.Schema(
 
         // Task's status
         status: { type: String, enum: ["todo", "in-progress", "done", "overdue"], default: "todo" },
+
+        // Task's user
+        user: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+            required: true,
+        },
     },
     /**
      * An option that automatically adds `createdAt` and `updatedAt` fields to the
