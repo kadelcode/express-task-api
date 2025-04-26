@@ -46,7 +46,7 @@ export const updateTask = async (req, res) => {
 
         // Extract the task details from the request body.
         // These details are the new values for the task's fields.
-        const { title, description, priority, dueDate } = req.body;
+        const { title, description, priority, dueDate, status } = req.body;
 
         // find the task in the database by its ID.
         const task = await Task.findById(id);
@@ -72,6 +72,7 @@ export const updateTask = async (req, res) => {
         task.description = description || task.description;
         task.priority = priority || task.priority;
         task.dueDate = dueDate || task.dueDate;
+        task.status = status || task.status
 
         // Save the updated task to the database.
         await task.save();
