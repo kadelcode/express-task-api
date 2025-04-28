@@ -46,9 +46,9 @@ export const updateTask = async (req, res) => {
 
         // Extract the task details from the request body.
         // These details are the new values for the task's fields.
-        const { title, description, priority, dueDate, status } = req.body;
+        const { title, description, priority, dueDate, status, assignedTo } = req.body;
 
-        // find the task in the database by its ID.
+        // Find the task first
         const task = await Task.findById(id);
 
         // If the task is not found, return a 404 status code with an error message.
@@ -56,14 +56,27 @@ export const updateTask = async (req, res) => {
             return res.status(404).json({ message: "Task not found" });
         }
 
-        // Check if the user who is making the request owns the task.
-        /**
-         * This is done by comparing the user ID associated with the task to
-         * the user ID in the request object.
-         * 
-         */
+        // Check if the user owns the task
         if (task.user.toString() !== req.user.id) {
             return res.status(403).json({ message: "Unauthorized to update this task" });
+        }
+
+        // Update fields if provided
+        if (title) task.title = title;
+        if (description) task.description = description;
+        if (priority) task.priority = priority;
+        if (dueDate) task.dueDate = dueDate;
+        if (status) task.status = status;
+        if (assignedTo) task.assignedTo = assignedTo;
+
+
+        // If the status is 'done', set completedAt to now (if not already set)
+        if (status === 'done') {
+            if (!task.completedAt) {
+                task.completedAt = new Date();
+            }
+        } else {
+            task.completedAt = null; // if moved back to 'todo' or 'in-progress'
         }
 
         // Check if the status of the task is "done" and if the completedAt property is not set
@@ -72,21 +85,13 @@ export const updateTask = async (req, res) => {
             task.completedAt = new Date();
         }
 
-        // Update the task's fields with the new values from the request body.
-        // If a field is not provided in the request body, keep the existing value.
-        task.title = title || task.title;
-        task.description = description || task.description;
-        task.priority = priority || task.priority;
-        task.dueDate = dueDate || task.dueDate;
-        task.status = status || task.status
-        task.completedAt = completedAt || task.completedAt
-
         // Save the updated task to the database.
         await task.save();
 
         // Return a success response with a 200 status code and the updated task.
         res.status(200).json({ message: "Task updated successfully", task });
     } catch (error) {
+        console.error(error)
         // If an error occurs during the process, return a 500 status code
         // with an error message and the error details.
         res.status(500).json({ message: "Server error", error: error.message });
