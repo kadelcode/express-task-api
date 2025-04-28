@@ -26,7 +26,7 @@ const TaskSchema = new mongoose.Schema(
         },
         
         // Task completion date
-        completedAt: Date,
+        completedAt: { type: Date, default: null },
     },
     /**
      * An option that automatically adds `createdAt` and `updatedAt` fields to the
