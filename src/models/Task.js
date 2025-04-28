@@ -24,6 +24,9 @@ const TaskSchema = new mongoose.Schema(
             ref: "User",
             required: true,
         },
+        
+        // Task completion date
+        completedAt: Date,
     },
     /**
      * An option that automatically adds `createdAt` and `updatedAt` fields to the
