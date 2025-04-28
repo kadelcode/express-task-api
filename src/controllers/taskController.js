@@ -66,6 +66,12 @@ export const updateTask = async (req, res) => {
             return res.status(403).json({ message: "Unauthorized to update this task" });
         }
 
+        // Check if the status of the task is "done" and if the completedAt property is not set
+        if (task.status === "done" && !task.completedAt) {
+            // If both conditions are true, set the completedAt property to the current data and time
+            task.completedAt = new Date();
+        }
+
         // Update the task's fields with the new values from the request body.
         // If a field is not provided in the request body, keep the existing value.
         task.title = title || task.title;
@@ -73,6 +79,7 @@ export const updateTask = async (req, res) => {
         task.priority = priority || task.priority;
         task.dueDate = dueDate || task.dueDate;
         task.status = status || task.status
+        task.completedAt = completedAt || task.completedAt
 
         // Save the updated task to the database.
         await task.save();
