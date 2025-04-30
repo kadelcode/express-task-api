@@ -76,3 +76,46 @@ npm run dev
 | PUT    | ```/api/tasks/:id``` | Delete task (Owner/Admin)   |
 
 > 🔐 All task routes are protected and require JWT token in the ```Authorization``` header.
+
+---
+
+## 🧪 Testing with Postman
+1. Import the included Postman collection (or test manually)
+2. Authenticate a user to receive a token
+3. Use the token as ```Bearer <token>``` in ```Authorization``` header
+
+---
+
+## 🐳 Docker Support
+### Build & Run with Docker
+```
+docker-compose up --build
+```
+
+---
+
+## 🛠️ CI/CD (Optional Setup)
+You can set up GitHub Actions like:
+- Lint on PRs
+- Run tests
+- Auto-deploy to Render or Heroku
+
+---
+
+## 📌 Future Enhancements
+
+- Real-time task updates with Socket.io
+- File attachments per task
+- Notification system
+- Comments per task
+- Frontend integration with Next.js (done)
+
+---
+
+## 🧑‍💻 Author
+Built with 💻 by [Kadel](https://github.com/kadelcode)
+
+---
+
+## 📄 License
+This project is licensed under the MIT License.
