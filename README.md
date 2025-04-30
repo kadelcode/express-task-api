@@ -73,6 +73,6 @@ npm run dev
 | GET    | ```/api/tasks```     | Get all tasks (User/Admin) |
 | POST   | ```/api/tasks```     | Create new task (User)     |
 | GET    | ```/api/tasks/:id``` | Get single task            |
-| PUT    | ```/api/tasks/:id``` | Delete task (Owner/Admin   |
+| PUT    | ```/api/tasks/:id``` | Delete task (Owner/Admin)   |
 
 > 🔐 All task routes are protected and require JWT token in the ```Authorization``` header.
