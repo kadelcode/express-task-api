@@ -113,7 +113,7 @@ You can set up GitHub Actions like:
 ---
 
 ## 🧑‍💻 Author
-Built with 💻 by [Kadel](https://github.com/kadelcode)
+Built with 💻 by [Kadel](https://kadel.vercel.app)
 
 ---
 
